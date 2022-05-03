@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+ <!DOCTYPE mapper
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+   
+   <!--namespace该是完整限定名-->
+ <mapper namespace="com.ib.ibcheckweb.mapper.AccountMapper">
+
+ <!--定义java bean的属性与数据库表的列之间的映射。type="Student"用到了configuration.xml中定义的别名-->
+  <!-- <resultMap id="studentResultMap" type="Student"> -->
+<!--id映射-->
+   <!-- <id property="id" column="id"/> -->
+<!--普通属性映射-->
+<!--
+<result property="name" column="name"/>
+<result property="gender" column="gender"/>
+<result property="major" column="major"/>
+<result property="grade" column="grade"/>
+</resultMap>
+-->
+ 
+     <!-- 插入单个信息 -->
+     <insert id="insertAccount" parameterType="com.ib.ibcheckweb.bean.account.Account">
+         INSERT INTO PORTFOLIO (ACCOUNT,DATE,nasdaq,spx,portfolio_Delta,stock_delta,option_delta,spx_delta,portfoliotheta,portfoliovega,portfolioGamma,op_num,portfolio_cost,put_delta,put_num,put_cost,call_delta,call_num,call_cost,short_put_delta,short_put_num,short_put_cost,long_call_delta,long_call_num,long_call_cost,short_call_delta,short_call_num,short_call_cost,long_put_delta,long_put_num,long_put_cost)
+         VALUES (#{account},#{date},#{nasdaq},#{spx},#{portfolio_Delta},#{stock_delta},#{option_delta},#{spx_delta},#{portfoliotheta},#{portfoliovega},#{portfolioGamma},#{op_num},#{portfolio_cost},#{put_delta},#{put_num},#{put_cost},#{call_delta},#{call_num},#{call_cost},#{short_put_delta},#{short_put_num},#{short_put_cost},#{long_call_delta},#{long_call_num},#{long_call_cost},#{short_call_delta},#{short_call_num},#{short_call_cost},#{long_put_delta},#{long_put_num},#{long_put_cost})
+     </insert>
+                                                           
+  <select id="getbyDate" parameterType="String" resultType="com.ib.ibcheckweb.bean.account.Account">
+  select * from PORTFOLIO where date like CONCAT('%',#{date},'%')
+  </select>
+  
+  
+   <select id="getbyAccount" parameterType="String" resultType="com.ib.ibcheckweb.bean.account.Account">
+  select * from PORTFOLIO where account = #{account}
+  </select>	
+
+  <!--
+   <select id="listAll" resultType="cn.nwtxxb.domain.User">
+        select <include refid="cols"/> from   PORTFOLIO      
+   </select>
+  -->
+  
+
+
+ </mapper>
