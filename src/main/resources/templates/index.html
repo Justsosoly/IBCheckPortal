@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<title>Account Info</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+</head>
+
+<body>
+
+					<p class="my-5">
+						<a href="/edit" class="btn btn-primary"> <i
+							class="fas fa-user-plus ml-2"> show chat </i></a>
+					</p>
+			
+
+
+							<table class="table table-striped table-responsive-md">
+								<thead>
+									<tr>
+										<th>Account Name</th>
+										<th>Date</th>
+
+										<th>Portfolio Delta</th>
+										<th>Stock Delta</th>
+										<th>Option Delta</th>
+
+										<th>NASDAQ</th>
+										<th>SPX</th>
+
+										<th>SPX Delta</th>
+										<th>Portfolio Theta</th>
+										<th>Portfolio Vega</th>
+										<th>Portfolio Gamma</th>
+
+										<th>Option Num</th>
+										<th>Total Option Cost</th>
+
+										<th>Total Put Delta</th>
+										<th>Put Num</th>
+										<th>Put Cost</th>
+
+										<th>Total Call Delta</th>
+										<th>Call Num</th>
+										<th>Call Cost</th>
+
+										<th>Total Short Put Delta</th>
+										<th>Total Short Put Num</th>
+										<th>Total Short Put Cost</th>
+
+										<th>Total Long Call Delta</th>
+										<th>Total Long Call Num</th>
+										<th>Total Long Call Cost</th>
+
+										<th>Total Short Call Delta</th>
+										<th>Total Short Call Num</th>
+										<th>Total Short Call Cost</th>
+
+										<th>Total Long Put Delta</th>
+										<th>Total Long Put Num</th>
+										<th>Total Long Put Cost</th>
+									</tr>
+								</thead>
+
+								<tbody>
+									<tr th:each="account : ${accounts}">
+									
+										<td th:text="${account.date}"></td>
+
+										<td th:text="${account.portfolio_Delta}"></td>
+										<td th:text="${account.stock_delta}"></td>
+										<td th:text="${account.option_delta}"></td>
+
+										<td th:text="${account.nasdaq}"></td>
+										<td th:text="${account.spx}"></td>
+
+										<td th:text="${account.spx_delta}"></td>
+										<td th:text="${account.portfoliotheta}"></td>
+										<td th:text="${account.portfoliovega}"></td>
+										<td th:text="${account.portfolioGamma}"></td>
+
+										<td th:text="${account.op_num}"></td>
+										<td th:text="${account.portfolio_cost}"></td>
+
+										<td th:text="${account.put_delta}"></td>
+										<td th:text="${account.put_num}"></td>
+										<td th:text="${account.put_cost}"></td>
+
+
+										<td th:text="${account.call_delta}"></td>
+										<td th:text="${account.call_num}"></td>
+										<td th:text="${account.call_cost}"></td>
+
+										<td th:text="${account.short_put_delta}"></td>
+										<td th:text="${account.short_put_num}"></td>
+										<td th:text="${account.short_put_cost}"></td>
+
+
+										<td th:text="${account.long_call_delta}"></td>
+										<td th:text="${account.long_call_num}"></td>
+										<td th:text="${account.long_call_cost}"></td>
+
+										<td th:text="${account.short_call_delta}"></td>
+										<td th:text="${account.short_call_num}"></td>
+										<td th:text="${account.short_call_cost}"></td>
+
+										<td th:text="${account.long_put_delta}"></td>
+										<td th:text="${account.long_put_num}"></td>
+										<td th:text="${account.long_put_cost}"></td>
+
+									</tr>
+								</tbody>
+							</table>
+
+
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -4,6 +4,12 @@ public class Account {
 
 	String account;
 	String date;
+	public int getPortfolio_Delta() {
+		return portfolio_Delta;
+	}
+	public void setPortfolio_Delta(int portfolio_Delta) {
+		this.portfolio_Delta = portfolio_Delta;
+	}
 	int portfolio_Delta;
 	int option_delta;
 	int stock_delta;
@@ -101,12 +107,7 @@ public class Account {
 	public void setDate(String date) {
 		this.date = date;
 	}
-	public int getPortfolioDelta() {
-		return portfolio_Delta;
-	}
-	public void setPortfolioDelta(int portfolioDelta) {
-		this.portfolio_Delta = portfolioDelta;
-	}
+
 	public int getPortfolioGamma() {
 		return portfolioGamma;
 	}

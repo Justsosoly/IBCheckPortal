@@ -342,7 +342,7 @@ public class DayDelta {
 		account.setNasdaq((int) nasdaq);
 		account.setSpx((int) spxprice);
 
-		account.setPortfolioDelta((int) portfolio_delta);
+		account.setPortfolio_Delta((int) portfolio_delta);
 		account.setOption_delta((int) option_delta);
 		account.setStock_delta((int) stock_delta);
 
@@ -589,7 +589,7 @@ public class DayDelta {
 		account.setNasdaq((int) nasdaq);
 		account.setSpx((int) spxprice);
 
-		account.setPortfolioDelta((int) portfolio_delta);
+		account.setPortfolio_Delta((int) portfolio_delta);
 		account.setOption_delta((int) option_delta);
 		account.setStock_delta((int) stock_delta);
 

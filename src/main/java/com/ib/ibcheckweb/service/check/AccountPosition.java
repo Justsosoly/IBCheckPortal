@@ -89,7 +89,6 @@ public class AccountPosition {
 
 			String str = row[i]; // str为一行的内容
 			String conidunit = StringUtils.substringBefore(row[i], "|");// 将conid=123456789取出给conidunit
-
 			// if( str.contains("conid="+tickerId))//循环匹配到有该conid的这行记录
 			if (conidunit.equalsIgnoreCase("conid=" + tickerId))// 有重复记录，则把op其他补全
 			{

@@ -74,18 +74,23 @@
 			<version>4.1.2</version>
 		</dependency>
 
-
 		<dependency>
 			<groupId>org.jfree</groupId>
 			<artifactId>jfreechart</artifactId>
 			<version>1.0.19</version>
 		</dependency>
+		
 		<dependency>
-			<groupId>org.jfree</groupId>
-			<artifactId>jfreechart</artifactId>
-			<version>1.0.19</version>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
 		</dependency>
-
+		
+		
+		<dependency>
+        <groupId>org.jfree</groupId>
+        <artifactId>jfreechart</artifactId>
+        <version>1.0.19</version>
+    </dependency>
 
 		<!--
 		<dependency>
@@ -111,20 +116,22 @@
 			</plugin>
 		</plugins>
 
-		<!-- 添加资源 -->
+		<!-- 添加资源
 		<resources>
 			<resource>
 				<directory>src/main/resources</directory>
-				<!-- src/main/resources下的指定资源放行 -->
+				 -->
+				<!-- src/main/resources下的指定资源放行 
 				<includes>
 					<include>**/*.properties</include>
 					<include>**/*.yml</include>
 					<include>**/*.xml</include>
+					<include>**/*.html</include>
 				</includes>
-				<filtering>false</filtering>
+				<filtering>true</filtering>
 			</resource>
 		</resources>
-
+-->
 	</build>
 
 

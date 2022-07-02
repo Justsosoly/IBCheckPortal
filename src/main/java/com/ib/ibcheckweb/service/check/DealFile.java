@@ -13,19 +13,11 @@ import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Date;
-
 import java.util.List;
-
-import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Cell;
-
 import org.apache.poi.ss.usermodel.Row;
-
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-
-import com.ib.ibcheckweb.service.check.DayDelta;
-import com.ib.ibcheckweb.bean.*;
 import com.ib.ibcheckweb.bean.account.Account;
 import com.ib.ibcheckweb.bean.underlying.Option;
 import com.ib.ibcheckweb.bean.underlying.Security;
@@ -142,11 +134,11 @@ public class DealFile {
 		String day = String.format("%td", date);
 
 		filedate = year + month + day;
-		 System.out.println("今天是："+filedate);
+		// System.out.println("今天是："+filedate);
 
 		return filedate;
 	}
-	
+		
 	public String FileNameTime() {
 		Date date = new Date();
 		String filetime = "";
@@ -224,7 +216,7 @@ public class DealFile {
 				account.getNasdaq(),
 				account.getSpx(),
 				
-				account.getPortfolioDelta(), 
+				account.getPortfolio_Delta(), 
 				account.getStock_delta(),
 				account.getOption_delta(),
 				
@@ -390,7 +382,7 @@ public class DealFile {
 				account.getNasdaq(),
 				account.getSpx(),
 				
-				account.getPortfolioDelta(), 
+				account.getPortfolio_Delta(), 
 				account.getStock_delta(),
 				account.getOption_delta(),
 				account.getSpx_delta(),
