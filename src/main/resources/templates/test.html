@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title>风险杠杆</title>
+		<title>杠杆风险示意</title>
 	</head>
 	<style>
 		body{
@@ -33,15 +33,15 @@
 			background-color: #15305a;
 		}
 		.item1_text{
-			font-size: 18px;
+			font-size: 22px;
 			color: white;
 			overflow: hidden;/*超出隐藏*/
 			text-overflow: ellipsis;/*省略号*/
 			white-space: nowrap;/*设置文本不换行*/
 		}
 		.item1_img{
-			width: 25px;
-			height: 25px;
+			width: 30px;
+			height: 30px;
 			display: inline-block;
 			margin: auto 20px;
 		}
@@ -72,13 +72,13 @@
 			display: none;
 		}
 		.item2{
-			margin:18px auto;
+			margin:20px auto;
 		}
 		.item2:hover{
 			background-color: #15305a;
 		}
 		.item2_text{
-			font-size: 16px;
+			font-size: 20px;
 			color: white;
 			margin-left: 25%;
 		}
@@ -104,35 +104,40 @@
 				<div class="item1_item2" >
 					<div class="item2">
 						
-						<a href="http://localhost:8093/doubleYChart" title="Delta+Nasdaq">
-						<span class="item2_text">Delta+Nasdaq</span>
+						<a href="http://localhost:8093/doubleYChart" title="DeltaVsNasdaq">
+						<span class="item2_text">Nasdaq+Delta</span>
 						</a>
 						
 					</div>
 					<div class="item2">
-						<a href="http://localhost:8093/doubleYTHeVeChart" title="Delta+Theta+Vega">
-						<span class="item2_text">Delta+Theta+Vega</span>
+						<a href="http://localhost:8093/doubleYTHeVeChart" title="DeltaVsNasdaq">
+						<span class="item2_text">Theta+Vega+Delta</span>
 					   </a>
 					</div>
 					<div class="item2">
-					
-				    	<a href="http://localhost:8093/doubleYValueNasChart" title="Delta+NetLiquidation+Nasdaq">
-						<span class="item2_text">Delta+NetLiq+Nasdaq</span>
-						</a>
+						<span class="item2_text">NetLiquidation+Delta</span>
 					</div>
 				</div>
 				
-			
+				<!-- 第1.5块：临时插入无二级标题 -->
+				<div class="item1">
+					<div class="item1_img4 item1_img"></div>
+					<span class="item1_text">一级标题1.5</span>
+					<div class="you item1_img"></div>
+				</div>
+				<div class="item1_item2">
+					<!-- 	这部分不能删 -->
+				</div>
 				
 			<!-- 第二块：一级标题2 -->
 				<div class="item1">
 					<div class="item1_img2 item1_img"></div>
-					<span class="item1_text">U10019359表</span>
+					<span class="item1_text">一级标题2</span>
 					<div class="you item1_img"></div>
 				</div>
 				<div class="item1_item2">
 					<div class="item2">
-						<span class="item2_text">全部记录</span>
+						<span class="item2_text">二级标题4</span>
 					</div>
 					<div class="item2">
 						<span class="item2_text">二级标题5</span>
@@ -160,17 +165,74 @@
 					</div>
 				</div>
 				
-					<!-- 第1.5块：临时插入无二级标题 -->
+				<!-- 第三块：一级标题3 -->
 				<div class="item1">
-					<div class="item1_img4 item1_img"></div>
-					<a href="http://localhost:8093/insertAccount" title="DeltaVsNasdaq">
-					<span class="item1_text">GetProfolio</span>
-					 </a>
+					<div class="item1_img3 item1_img"></div>
+					<span class="item1_text">一级标题3</span>
 					<div class="you item1_img"></div>
 				</div>
 				<div class="item1_item2">
-					<!-- 	这部分不能删 -->
+					<div class="item2">
+						<span class="item2_text">二级标题8</span>
+					</div>
+					<div class="item2">
+						<span class="item2_text">二级标题9</span>
+					</div>
 				</div>
+				
+				<!-- 第三块：一级标题3 -->
+				<div class="item1">
+					<div class="item1_img3 item1_img"></div>
+					<span class="item1_text">一级标题3</span>
+					<div class="you item1_img"></div>
+				</div>
+				<div class="item1_item2">
+					<div class="item2">
+						<span class="item2_text">二级标题8</span>
+					</div>
+					<div class="item2">
+						<span class="item2_text">二级标题9</span>
+					</div>
+				</div>
+				
+				<!-- 第三块：一级标题3 -->
+				<div class="item1">
+					<div class="item1_img3 item1_img"></div>
+					<span class="item1_text">一级标题3</span>
+					<div class="you item1_img"></div>
+				</div>
+				<div class="item1_item2">
+					<div class="item2">
+						<span class="item2_text">二级标题8</span>
+					</div>
+					<div class="item2">
+						<span class="item2_text">二级标题9</span>
+					</div>
+				</div>
+				
+				<!-- 第三块：一级标题3 -->
+				<div class="item1">
+					<div class="item1_img3 item1_img"></div>
+					<span class="item1_text">一级标题3</span>
+					<div class="you item1_img"></div>
+				</div>
+				<div class="item1_item2">
+					<div class="item2">
+						<span class="item2_text">二级标题8</span>
+					</div>
+					<div class="item2">
+						<span class="item2_text">二级标题9</span>
+					</div>
+				</div>
+			</div>
+		
+			<div class="content">
+			
+			</div>
+			
+			
+
+			
 			
 		</div>
 	</body>

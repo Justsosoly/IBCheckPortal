@@ -1,30 +1,5 @@
 package com.ib.ibcheckweb.mapper;
 
-//import java.util.List;
-//
-//import org.apache.ibatis.annotations.Mapper;
-//
-//import com.ib.ibcheckweb.bean.account.Account;
-//
-//
-//
-//@Mapper
-//public interface AccountMapper {
-//	
-//	public Account getbyDate(String date); 
-//	
-//	public List<Account> getbyAccount(String account);
-//	
-//	   
-//	   public void insert(Account user);
-//
-//	    public void update(Account user);
-//	    
-//	    public void delete(int id);
-//	    
-//	    public Account find(int id);
-//	
-//}
 
 
 import java.util.List;

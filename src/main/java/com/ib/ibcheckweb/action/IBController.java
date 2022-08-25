@@ -1,42 +1,29 @@
 package com.ib.ibcheckweb.action;
 
-import java.awt.Color;
-import java.awt.Font;
+
 import java.io.IOException;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.axis.CategoryAxis;
-import org.jfree.chart.axis.NumberAxis;
-import org.jfree.chart.plot.CategoryPlot;
-import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.chart.renderer.category.LineAndShapeRenderer;
 import org.jfree.chart.servlet.ServletUtilities;
-import org.jfree.chart.title.LegendTitle;
-import org.jfree.data.category.DefaultCategoryDataset;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
-
 import com.ib.ibcheckweb.service.AccountService;
+import com.ib.ibcheckweb.service.AccountSummaryService;
 import com.ib.ibcheckweb.service.check.AccountPosition;
 import com.ib.ibcheckweb.service.check.DayDelta;
 import com.ib.ibcheckweb.service.check.DealFile;
 import com.ib.ibcheckweb.service.check.GetGreek;
 import com.ib.ibcheckweb.service.check.GetPosition;
+import com.ib.ibcheckweb.service.jfreechart.JfreeChartUtil;
 import com.ib.ibcheckweb.bean.account.Account;
+import com.ib.ibcheckweb.bean.account.AccountSummary;
 import com.ib.ibcheckweb.bean.underlying.Security;
 
 
@@ -44,108 +31,114 @@ import com.ib.ibcheckweb.bean.underlying.Security;
 @Controller
 @RequestMapping
 public class IBController {
+	  int  width=6000;
+      int  height=600;
  
     @Autowired
-    private AccountService accountService;
+    private  AccountService accountService;
+    
+    @Autowired
+    private  AccountSummaryService accountsummaryService;
+    
 	
     @RequestMapping("/ibcheck")
     public String hello() {
         return "ibcheck";
     }
-    @GetMapping("makeLineAndShapeChart")
-    public String makeLineAndShapeChart(HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
-        System.out.println("已进");
-        // 定义图表对象数据，数据
-        DefaultCategoryDataset  dataset  =createDataset();
-        JFreeChart  chart = ChartFactory.createLineChart(
-                "折线图", // chart title
-                "时间", // domain axis label
-                "销售额(百万)", // range axis label
-                dataset, // data
-                PlotOrientation.VERTICAL, // orientation
-                true, // include legend
-                true, // tooltips
-                false // urls
-        );
- 
-        CategoryPlot plot = chart.getCategoryPlot();
-        // 设置图示字体
-        chart.getTitle().setFont(new Font("宋体", Font.BOLD, 22));
-        //设置横轴的字体
-        CategoryAxis categoryAxis = plot.getDomainAxis();
-        categoryAxis.setLabelFont(new Font("宋体", Font.BOLD, 22));//x轴标题字体
-        categoryAxis.setTickLabelFont(new Font("宋体", Font.BOLD, 16));//x轴刻度字体
- 
-        //以下两行 设置图例的字体
-        LegendTitle legend = chart.getLegend(0);
-        legend.setItemFont(new Font("宋体", Font.BOLD, 14));
-        //设置竖轴的字体
-        NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
-        rangeAxis.setLabelFont(new Font("宋体" , Font.BOLD , 19)); //设置数轴的字体
-        rangeAxis.setTickLabelFont(new Font("宋体" , Font.BOLD , 16));
-        LineAndShapeRenderer lasp = (LineAndShapeRenderer) plot.getRenderer();
-        lasp.setBaseShapesVisible(true);
-        lasp.setDrawOutlines(true);
-        // 设置线条是否被显示填充颜色
-        lasp.setUseFillPaint(false);
-        // 设置拐点颜色
-        lasp.setBaseFillPaint(Color.red);//蓝色
-        rangeAxis.setAxisLinePaint(Color.black);
-        // 设置背景颜色
-        plot.setBackgroundPaint(Color.white);
-        // 设置网格竖线颜色
-        plot.setDomainGridlinePaint(Color.pink);
-        // 设置网格横线颜色
-        plot.setRangeGridlinePaint(Color.pink);
- 
-        rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());//去掉竖轴字体显示不全
-        rangeAxis.setAutoRangeIncludesZero(true);
-        rangeAxis.setUpperMargin(0.20);
-        rangeAxis.setLabelAngle(Math.PI / 2.0);
- 
-        LineAndShapeRenderer  renderer =  (LineAndShapeRenderer) plot
-                .getRenderer();
-        renderer.setSeriesPaint(0, Color.BLACK);//折线颜色，下标0始
- 
+    
+    //双Y轴delta+nasdaq
+    @GetMapping("doubleYChart")
+    public String makeDoubleYChart(HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
+    	
+          JfreeChartUtil jutil=new JfreeChartUtil();
+          List<Account> list=(List<Account>) accountService.getbyAccount("U10019359");
+          JFreeChart chart= jutil.doubleYChart(list);
+        
+	
         // 6. 将图形转换为图片，传到前台
-        String fileName = ServletUtilities.saveChartAsJPEG(chart, 1000, 400, null, request.getSession());
+        String fileName = ServletUtilities.saveChartAsJPEG(chart, width, height, null, request.getSession());
+        String chartURL = request.getContextPath() + "/chart?filename=" + fileName;
+        model.addAttribute("makeDeltaNasdaqChart", chartURL);
+          //对应 delta_nasdaq.html
+        return "delta_nasdaq";
+    }
+    
+    
+    
+    
+    //双Y轴delta_netliquidation_nasdaq
+    @GetMapping("doubleYValueNasChart")
+    public String makeDoubleYValueNasChart(HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
+    	
+          JfreeChartUtil jutil=new JfreeChartUtil();
+          List<Account> accountlist=(List<Account>) accountService.getbyAccount("U10019359");
+          List<AccountSummary> accsumlist= accountsummaryService.getbyAccountID("U10019359");
+          JFreeChart chart= jutil.doubleYValueNasChart(accsumlist,accountlist);
+        
+	
+        // 6. 将图形转换为图片，传到前台
+        String fileName = ServletUtilities.saveChartAsJPEG(chart, width, height, null, request.getSession());
+        String chartURL = request.getContextPath() + "/chart?filename=" + fileName;
+        model.addAttribute("makeDeltaNetliquidationNasdaqChart", chartURL);
+          //对应 delta_netliquidation_nasdaq.html
+        return "delta_netliquidation_nasdaq";
+    }
+    
+    
+    //双Y轴delta_theta_vega
+    @GetMapping("doubleYTHeVeChart")
+    public String makeDoubleYTHeVeChart(HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
+    	
+          JfreeChartUtil jutil=new JfreeChartUtil();
+          List<Account> list=(List<Account>) accountService.getbyAccount("U10019359");
+          JFreeChart chart= jutil.doubleYTHVegaChart(list);
+	
+        // 6. 将图形转换为图片，传到前台
+        String fileName = ServletUtilities.saveChartAsJPEG(chart, width, height, null, request.getSession());
+        String chartURL = request.getContextPath() + "/chart?filename=" + fileName;
+        model.addAttribute("makeDeltaThetaVegaChart", chartURL);
+          //对应 delta_theta_vega.html
+        return "delta_theta_vega";
+    }
+    
+    
+    
+
+    //时序图 
+    @GetMapping("timeSeriesChart")
+    public String makeTimeSeriesChart(HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
+    
+          JfreeChartUtil jutil=new JfreeChartUtil();
+          List<Account> list=(List<Account>) accountService.getbyAccount("U10019359");
+          JFreeChart chart= jutil.timeSeriesChart(list);
+	
+        // 6. 将图形转换为图片，传到前台
+        String fileName = ServletUtilities.saveChartAsJPEG(chart, width, height, null, request.getSession());
+        String chartURL = request.getContextPath() + "/chart?filename=" + fileName;
+        model.addAttribute("makeLineAndShapeChart", chartURL);
+          //对应 LineChart.html
+        return "LineChart";
+    }
+	
+    
+    //折线图 theta+vega，需要用accountDataset方法的数据集
+    @GetMapping("lineChart")
+    public String makeLineChart(HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
+ 
+          JfreeChartUtil jutil=new JfreeChartUtil();
+          List<Account> list=(List<Account>) accountService.getbyAccount("U10019359");
+          JFreeChart chart= jutil.lineChart(list);
+	
+        // 6. 将图形转换为图片，传到前台
+        String fileName = ServletUtilities.saveChartAsJPEG(chart, width, height, null, request.getSession());
         String chartURL = request.getContextPath() + "/chart?filename=" + fileName;
         model.addAttribute("makeLineAndShapeChart", chartURL);
  
         return "LineChart";
     }
-
-   
-    // 生成数据
-    public static DefaultCategoryDataset createDataset() {
-        DefaultCategoryDataset linedataset = new DefaultCategoryDataset();
- 
-        // 各曲线名称
-        String [] series= {"冰箱","彩电","菠萝"};
-        // 横轴名称(列名称)
-        String [] month = {"1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"};
-        //具体数据
-//      为了方便你们操作成功，这里数据写死
-        double [] num1 = {4,5,6,10,1,2,3,7,4,2,8,3};
-        double [] num2 = {10,15,20,16,7,4,7,11,21,42,54,32};
-        double [] num3 = {10,18,25,19,43,12,54,22,24,65,11,32};
-        //将多个数组合并，且不打乱顺序
-        double[] num= new double[num1.length + num2.length + num3.length];
-        System.arraycopy(num1, 0, num, 0, num1.length);
-        System.arraycopy(num2, 0, num, num1.length, num2.length);
-        System.arraycopy(num3, 0, num, num1.length+num2.length, num3.length);
-        int l1 = num.length/series.length; //4
-        int l2 = month.length;
-        int j=0;
-        for(int i=0;i<num.length;i++) {
-            linedataset.addValue(num[i], series[i/l1], month[j]);
-            j++;
-            if(j==month.length)
-                j=0;
-        }
-        return linedataset;
-    }
-
+    
+    
+    
     
     @RequestMapping("/getbyDate")
     public void getbyDate() {
@@ -181,16 +174,15 @@ public class IBController {
     
     
 	@RequestMapping("/index")
-    public String index(Model model) {
-    	 List<Account> list=(List<Account>) accountService.getbyAccount("U10019359");
-   	     model.addAttribute("accounts",list);
+    public String index(Model model) throws InterruptedException {
+
         return "index";
     }
    
     
     @RequestMapping("/insertAccount")
     public String insertAccount(Model model) throws InterruptedException, IOException {
-    
+    	
     	//取得position内容文件
 		GetPosition gepo= new GetPosition();
 		gepo.getPosition();
@@ -199,6 +191,8 @@ public class IBController {
 		AccountPosition accountposition = new AccountPosition();
 		GetGreek getGreek=new GetGreek();
      	String path_all=accountposition.path;//2个账号
+     	String path_summary=accountposition.path_AccountSummary;
+     	
      	
 		getGreek.DealAllGreek(path_all,6);//port 6 is random
 		List<Security> secList = new ArrayList<Security>();
@@ -210,24 +204,43 @@ public class IBController {
 		List<Security> secMarket = new ArrayList<Security>();
 		Account account_U9238 = new Account();
 		Account account_U1001=new Account();
-		secPosition = daydelta.getALLSecruity(dealfile.path_All);
-		secMarket = daydelta.getALLSecruity(dealfile.path_AllMarket);
+		AccountSummary accsumm_U9238 = new AccountSummary();
+		AccountSummary accsumm_U1001 = new AccountSummary();
+		
+		//daydelta.selfPrint();//system.out.print's content print from console to the txt file
+		
+		
+		 PrintStream out;
+	     out = new PrintStream(dealfile.path_All+"print");
+	     System.setOut(out);
+	     
+		secPosition = daydelta.getALLSecruity(dealfile.path_All);//获取2个账号所有的position
+		secMarket = daydelta.getALLSecruity(dealfile.path_AllMarket);//获取2个账号全部标的市场价格，GREEK等信息
+		//通常market的标的数量会比positon的少，因为position里2个账号可能会共有标的，所以在marke里是一个 
 		secList =daydelta.twoinoneSecuity(secPosition, secMarket);//最终所获得信息不放文件中
 		
 		account_U9238 = daydelta.getALLPflioDelta(secList,"U9238923");// 获取并封装账户相关的Greek等信息
 		daydelta.getALLCloseOptionList(secList,"U9238923");// 提示获取时间价值的Option
-		daydelta.getNeutralOPNum(daydelta.getMapofSecList(secList,"U9238923"));
+		daydelta.getNeutralOPNum(daydelta.getMapofSecList(secList,"U9238923"));//get the num if the underlying want to neutral
 		dealfile.ResultWriteTOExcel(account_U9238);// 将每个账户写入excel里
+		
 		
 		account_U1001 =daydelta.getALLPflioDelta(secList,"U10019359");
 		daydelta.getALLCloseOptionList(secList,"U10019359");// 提示获取时间价值的Option
 		daydelta.getNeutralOPNum(daydelta.getMapofSecList(secList,"U10019359"));
 		dealfile.ResultWriteTOExcel(account_U1001);// 将每个账户写入excel里
-    	
-    	
-    	
+	    
+		out.close();//close the print,so the exception not in the file
+		
+		accsumm_U9238=daydelta.getAccountSummary(path_summary+"U9238923");
+		accsumm_U1001=daydelta.getAccountSummary(path_summary+"U10019359");
+		
+		//写数据库 
     	   accountService.insertAccount(account_U9238);
     	   accountService.insertAccount(account_U1001);
+    	   accountsummaryService.insert(accsumm_U9238);
+    	   accountsummaryService.insert(accsumm_U1001);
+    	 
 
     	   //向页面themaleaf传递2个account对象
     	   model.addAttribute("accounts_U9238",account_U9238);
@@ -238,5 +251,12 @@ public class IBController {
         
     	
     }
+    
+    
+    
+    
+    
+    
+   
     
 }

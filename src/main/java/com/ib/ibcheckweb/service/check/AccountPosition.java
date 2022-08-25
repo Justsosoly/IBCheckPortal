@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import com.ib.ibcheckweb.twsapi.client.*;
+import com.ib.ibcheckweb.bean.account.AccountSummary;
 import com.ib.ibcheckweb.bean.underlying.*;
 
 import org.apache.commons.lang3.*;
@@ -28,6 +29,7 @@ public class AccountPosition {
 	//2个账号写到一个文件中
 	public String path= dealfile.path_All;
 	public String pathMarket =dealfile.path_AllMarket;
+	public String path_AccountSummary=dealfile.path_AccountSummary;
 	
 	
 	public String pathGREEK = path + "GREEK";
@@ -57,6 +59,43 @@ public class AccountPosition {
 	int total_stock = 0;
 	int total_secruity = 0;
 
+	
+	public void insertAccountSummary(int reqId, String account, String tag, String value, String currency)
+	{
+//		AccountSummary actsummary=new AccountSummary();
+//		actsummary.setAccount(account);
+//		if(tag.contentEquals("Currency")) actsummary.setCurrency(value);
+//		if(tag.contentEquals("CashBalance")) actsummary.setCashBalance(value);
+//		if(tag.contentEquals("TotalCashBalance")) actsummary.setTotalCashBalance(value);
+//		if(tag.contentEquals("AccruedCash")) actsummary.setAccruedCash(value);
+//		if(tag.contentEquals("StockMarketValue")) actsummary.setStockMarketValue(value);
+//		if(tag.contentEquals("OptionMarketValue")) actsummary.setOptionMarketValue(value);
+//		if(tag.contentEquals("FutureOptionValue")) actsummary.setFutureOptionValue(value);
+//		if(tag.contentEquals("FuturesPNL")) actsummary.setFuturesPNL(value);
+//		if(tag.contentEquals("NetLiquidationByCurrency")) actsummary.setNetLiquidationByCurrency(value);
+//		if(tag.contentEquals("UnrealizedPnL")) actsummary.setUnrealizedPnL(value);
+//		if(tag.contentEquals("RealizedPnL")) actsummary.setRealizedPnL(value);
+//		if(tag.contentEquals("ExchangeRate")) actsummary.setExchangeRate(value);
+//		if(tag.contentEquals("FundValue")) actsummary.setFundValue(value);
+//		if(tag.contentEquals("NetDividend")) actsummary.setNetDividend(value);
+//		if(tag.contentEquals("MutualFundValue")) actsummary.setMutualFundValue(value);
+//		if(tag.contentEquals("MoneyMarketFundValue")) actsummary.setMoneyMarketFundValue(value);
+//		if(tag.contentEquals("CorporateBondValue")) actsummary.setCorporateBondValue(value);
+//		if(tag.contentEquals("TBondValue")) actsummary.settBondValue(value);
+//		if(tag.contentEquals("TBillValue")) actsummary.settBillValue(value);
+//		if(tag.contentEquals("WarrantValue")) actsummary.setWarrantValue(value);
+//		if(tag.contentEquals("FxCashBalance")) actsummary.setFxCashBalance(value);
+//		if(tag.contentEquals("AccountOrGroup")) actsummary.setAccountOrGroup(value);
+//		if(tag.contentEquals("RealCurrency")) actsummary.setRealCurrency(value);
+//		if(tag.contentEquals("IssuerOptionValue")) actsummary.setIssuerOptionValue(value);
+		dealfile.fileWriteAccountSummary(account,tag,value, path_AccountSummary);
+		
+	}
+	
+	
+	
+	
+	
 	public void insertGREEKToFile(int tickerId, int tickType, double impliedVol, double delta, double optPrice,
 			double pvDividend, double gamma, double vega, double theta, double undPrice)
 	{
@@ -141,12 +180,12 @@ public class AccountPosition {
 
 		}
 		//dealfile.FileWriteUPdateGREEK(option_Greek, pathGREEK);
-		dealfile.FileWriteGREEK(option_Greek, pathMarket);
+		dealfile.fileWriteGREEK(option_Greek, pathMarket);
 	}//end if file exist
 	else 
 		System.out.println(path+"文件不存在,先执行GetPotion");
 		
-		dealfile.FileWriteGREEK(option_Greek, pathMarket);
+		dealfile.fileWriteGREEK(option_Greek, pathMarket);
 	}
 	
 	
@@ -237,7 +276,7 @@ public class AccountPosition {
 
 		}
 		//dealfile.FileWriteUPdateGREEK(option_Greek, pathGREEK);
-		dealfile.FileWriteGREEK(option_Greek, pathGREEK);
+		dealfile.fileWriteGREEK(option_Greek, pathGREEK);
 	}//end if file exist
 	else 
 		System.out.println(path+"文件不存在,先执行GetPotion");
@@ -337,7 +376,7 @@ public class AccountPosition {
 		{
 		// secType不为空
 		if (stock.getSecType().equalsIgnoreCase("STK")||stock.getSecType().equalsIgnoreCase("IND")) {
-			dealfile.FileWriteGREEK(stock, pathMarket);
+			dealfile.fileWriteGREEK(stock, pathMarket);
 		}
 		}
 		
@@ -441,7 +480,7 @@ public class AccountPosition {
 		{
 		// secType不为空
 		if (stock.getSecType().equalsIgnoreCase("STK")||stock.getSecType().equalsIgnoreCase("IND")) {
-			dealfile.FileWriteGREEK(stock, pathGREEK);
+			dealfile.fileWriteGREEK(stock, pathGREEK);
 		}
 		}
 

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+ <!DOCTYPE mapper
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+   
+   <!--namespace该是完整限定名-->
+ <mapper namespace="com.ib.ibcheckweb.mapper.AccountSummaryMapper">
+
+
+     <!-- 插入单个信息 -->
+     <insert id="insert" parameterType="com.ib.ibcheckweb.bean.account.AccountSummary">
+         INSERT INTO account_summary (account,date,currency,cashBalance,totalCashBalance,accruedCash,stockMarketValue,optionMarketValue,
+         futureOptionValue,futuresPNL,netLiquidationByCurrency,unrealizedPnL,realizedPnL,exchangeRate,fundValue,
+         netDividend,mutualFundValue,
+         moneyMarketFundValue,corporateBondValue,
+         tBondValue,tBillValue,warrantValue,fxCashBalance,accountOrGroup,
+         realCurrency,issuerOptionValue)
+         VALUES 
+         (#{account},#{date},#{currency},#{cashBalance},#{totalCashBalance},#{accruedCash},#{stockMarketValue},#{optionMarketValue},
+         #{futureOptionValue},#{futuresPNL},#{netLiquidationByCurrency},#{unrealizedPnL},#{realizedPnL},#{exchangeRate},#{fundValue},
+         #{netDividend},#{mutualFundValue},
+         #{moneyMarketFundValue},#{corporateBondValue},
+        #{tBondValue},#{tBillValue},#{warrantValue},#{fxCashBalance},#{accountOrGroup},
+         #{realCurrency},#{issuerOptionValue})
+     </insert>
+                                                           
+  <select id="getbyDate" parameterType="String" resultType="com.ib.ibcheckweb.bean.account.AccountSummary">
+  select * from account_summary where date like CONCAT('%',#{date},'%')
+  </select>
+  
+  
+   <select id="getbyAccountID" parameterType="String" resultType="com.ib.ibcheckweb.bean.account.AccountSummary">
+  select * from account_summary where account = #{account}
+  </select>	
+
+  
+
+
+ </mapper>

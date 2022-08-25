@@ -11,7 +11,7 @@ public interface AccountServiceInterface {
 
     public void update(Account account);
 
-    public Account find(int id);
+  //  public Account find(int id);
   
     public void delete(int id);
     

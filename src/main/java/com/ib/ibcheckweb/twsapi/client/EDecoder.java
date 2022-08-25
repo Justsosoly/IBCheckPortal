@@ -61,7 +61,7 @@ class EDecoder implements ObjectInput {
     private static final int COMMISSION_REPORT = 59;
     private static final int POSITION = 61;//获取账户里的资产信息
     private static final int POSITION_END = 62;
-    private static final int ACCOUNT_SUMMARY = 63;
+    private static final int ACCOUNT_SUMMARY = 63;//账户信息
     private static final int ACCOUNT_SUMMARY_END = 64;
     private static final int VERIFY_MESSAGE_API = 65;
     private static final int VERIFY_COMPLETED = 66;
@@ -1664,7 +1664,7 @@ class EDecoder implements ObjectInput {
 		int reqId = readInt();
 		m_EWrapper.accountSummaryEnd(reqId);
 	}
-
+   //get the account net liquidation
 	private void processAccountSummaryMsg() throws IOException {
 		/*int version =*/ readInt();
 		int reqId = readInt();
@@ -1672,6 +1672,8 @@ class EDecoder implements ObjectInput {
 		String tag = readStr();
 		String value = readStr();
 		String currency = readStr();
+		
+		ap.insertAccountSummary(reqId, account, tag, value, currency);
 		m_EWrapper.accountSummary(reqId, account, tag, value, currency);
 	}
 

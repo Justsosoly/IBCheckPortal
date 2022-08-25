@@ -41,14 +41,15 @@ public class GetPosition {
 		// A pause to give the application time to establish the connection
 		// In a production application, it would be best to wait for callbacks to confirm the connection is complete
 		Thread.sleep(1000);
-		   /*** Requesting all accounts' positions. ***/
-        //! [reqpositions]
+		
+		/*** Requesting all accounts' positions. ***/
         wrapper.getClient().reqPositions();
-        //! [reqpositions]
 		Thread.sleep(2000);
-		//! [cancelpositions]
 		wrapper.getClient().cancelPositions();
-		//! [cancelpositions]
+		
+		//get the account summary
+		wrapper.getClient().reqAccountSummary(9001, "All", "$LEDGER");
+		
 		Thread.sleep(5000);		
 		m_client.eDisconnect();
 		

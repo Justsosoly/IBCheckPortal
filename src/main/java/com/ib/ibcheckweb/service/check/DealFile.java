@@ -11,6 +11,8 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -19,6 +21,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import com.ib.ibcheckweb.bean.account.Account;
+import com.ib.ibcheckweb.bean.account.AccountSummary;
 import com.ib.ibcheckweb.bean.underlying.Option;
 import com.ib.ibcheckweb.bean.underlying.Security;
 
@@ -33,14 +36,41 @@ public class DealFile {
 	public String path_All="/Users/jiao/Documents/IBAPI/AccountAll/"+ date+"position";
 	public String path_AllMarket = path_All + "Market";
 	public String path_GREEK=path_All + "GREEK";
+	public String path_AccountSummary=path_All+"AccountSummary";
 	
 	public String path_U9238GREEK = path_U9238 + "GREEK";
 	public String path_U1001GREEK = path_U1001 + "GREEK";
 
 	public String FILE_NAME = "/Users/jiao/Documents/IBAPI/DailyCheckExcel.xlsx";
+	
+	
+	public void fileWriteAccountSummary(String account, String tag, String value,String path_AccountSummary)
+	{
+		
+		String path=path_AccountSummary+account;
+			try {
+				BufferedWriter bufferedWriter = new BufferedWriter(
+						new OutputStreamWriter(new FileOutputStream(path, true), "UTF-8")); // false则每次都覆盖
+
+				bufferedWriter.write(tag+"="+value);
+				bufferedWriter.newLine();// 换行
+				bufferedWriter.flush();
+				bufferedWriter.close();
+			
+
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	//	}//end if file exist
+		
+	}
 
 	//该方法只新建不更新 getGREEK用，增加判断是否文本里有该conid，有则不写，返回
-	public void FileWriteGREEK(Security security, String pathGREEK) {
+	public void fileWriteGREEK(Security security, String pathGREEK) {
 	
 		String filetext = this.ReadFile(pathGREEK);
 		String conid = "conid=" + String.valueOf(security.getConid());
@@ -93,6 +123,8 @@ public class DealFile {
 
 	}
 
+
+	
 	// 输出全部头寸信息，写文件用
 	public String showALLSecurity(Security sec) {
 		String str = "";
@@ -103,7 +135,8 @@ public class DealFile {
 		return str;
 
 	}
-
+	
+	
 	// 将List里的封装对象取出到字符串，写入文件或者打印出来，写文件用
 	public String printFieldsValue(Object obj) {
 		Field[] fields = obj.getClass().getDeclaredFields();
@@ -160,6 +193,18 @@ public class DealFile {
 
 		return filetime;
 	}
+	
+	//transform the date format
+	public  String transformDate(String date) throws ParseException
+	{
+		String transdate="";
+		Date parse=new SimpleDateFormat("yyyy/MM/dd/HH:mm").parse(date);
+		transdate=new SimpleDateFormat("yyyyMMdd").format(parse);
+		
+		
+		return transdate;
+	}
+	
 	
 	
 	
@@ -257,7 +302,7 @@ public class DealFile {
 			for (Object[] datatype : datatypes) {
 
 				rowNum++;
-				System.out.println("the last row num is: " + rowNum);
+			//	System.out.println("the last row num is: " + rowNum);
 				Row row = sheet.createRow(rowNum);
 			//	System.out.println("Row: " + row);
 
@@ -450,21 +495,23 @@ public class DealFile {
 
 		} // end else
 
-		System.out.println("Done");
+	//	System.out.println("Done");
 	}
 
 	public void ResultAddtoExcel(Account account) {
 
 	}
 
-	public static void main(String args[]) throws IOException {
+	public static void main(String args[]) throws IOException, ParseException {
 		DealFile dealfile = new DealFile();
 		DayDelta daydelta = new DayDelta();
 
 		List<Option> opList = new ArrayList<Option>();
 	//	opList = daydelta.getALLOP(dealfile.path_U1001GREEK);
-		opList = daydelta.getALLOP(dealfile.path_U9238GREEK);
+	//	opList = daydelta.getALLOP(dealfile.path_U9238GREEK);
 	//	dealfile.ResultWriteTOExcel(daydelta.getOPTPflioDelta(opList));
+		
+		System.out.println(dealfile.transformDate("2022/06/06/20:54"));
 	}
 
 }

@@ -355,7 +355,7 @@ public class EWrapperImpl implements EWrapper {
 	@Override
 	public void accountSummary(int reqId, String account, String tag,
 			String value, String currency) {
-		System.out.println("Acct Summary. ReqId: " + reqId + ", Acct: " + account + ", Tag: " + tag + ", Value: " + value + ", Currency: " + currency);
+		System.out.println("ReqId: " + reqId + ", Acct: " + account + ", Tag: " + tag + ", Value: " + value + ", Currency: " + currency);
 	}
 	//! [accountsummary]
 	
